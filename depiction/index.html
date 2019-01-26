@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>packageName</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=0">
+    <!-- 设置网页图标 -->
+    <link rel="shortcut icon" href="../img/favicon.png">
+    <link rel="apple-touch-icon" href="../img/favicon.png">
+    <!-- 导入CSS样式 -->
+    <link rel="stylesheet" href="../font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../css/ios7.css">
+    <link rel="stylesheet" href="../css/my.css">
+    <!-- 导入js脚本 -->
+    <script type="text/javascript" src="../js/ios7.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery.querystring.js"></script>
+    <script type="text/javascript" src="../js/data-loader-engine.js"></script>
+    <script type="text/javascript" src="../js/ios_version_check.js"></script>
+    <script type="text/javascript">
+    bundleid = $.QueryString['p'];
+
+    var contentBlocks = {
+        "#packageName": { "type": "text", "source": "package>name" },
+        "#packageHeader": {
+            "type": "custom",
+            "source": "package>name",
+            "render": function(element, source) {
+                if (navigator.userAgent.search(/Cydia/) == -1) {
+                    $(element).show();
+                }
+            }
+        },
+        "#packageVersion": { "type": "text", "source": "package>version" },
+        "#packageShortDesc": { "type": "text", "source": "package>shortDescription" },
+        "#compatibilityCheck": {
+            "type": "custom",
+            "source": "package>compatibility>firmware",
+            "render": function(element, source) {
+                var res = ios_version_check(
+                    $(source).find("miniOS").text(),
+                    $(source).find("maxiOS").text(),
+                    $(source).find("otherVersions").text(),
+                    function(message, isBad) {
+                        $(element).html(message)
+                            .addClass((isBad ? 'unsupport' : 'support'));
+                    }
+                );
+                if (res == 0) { $(element).hide() }
+            }
+        },
+        "#descriptionList": {
+            "type": "list",
+            "source": "package>descriptionlist>description",
+            "paragraphElement": "<p>",
+            "emptyListCallback": function(e) { $("#descriptionContainer").hide() }
+        },
+        "#screenshotsLink": {
+            "type": "custom",
+            "source": "package>screenshots>screenshot",
+            "render": function(element, source) {
+                $("#screenshotsLink").remove();
+                if ($(source).size() == 0) {
+                    return
+                }
+                // 创建屏幕截图链接
+                $("#description").append("<li id='screenshots'>");
+                $("#screenshots").append(
+                    $("<a role='button'>")
+                    .attr("href", "screenshots.html?p=" + bundleid)
+                    .text("屏幕截图")
+                );
+            }
+        },
+        "#versionBadge": { "type": "text", "source": "package>version" },
+        "#changesList": {
+            "type": "list",
+            "source": "package>changelog>change",
+            "reverseRender": true,
+            "paragraphElement": "<p>",
+            "emptyListCallback": function(e) { $("#changelogContainer").hide() }
+        },
+        "#changelogLink": {
+            "type": "custom",
+            "source": "package>changelog>change",
+            "render": function(element, source) {
+                $("#changelogLink").remove();
+                if ($(source).size() == 0) {
+                    return
+                }
+                // 创建屏更新日志链接
+                $("#change").append("<li id='changelog'>");
+                $("#changelog").append(
+                    $("<a role='button'>")
+                    .attr("href", "changelog.html?p=" + bundleid)
+                    .text("更新日志")
+                );
+            }
+        },
+        "#dependencyList": {
+            "type": "list",
+            "source": "package>dependencies>package",
+            "paragraphElement": "<span>",
+            "emptyListCallback": function(e) { $("#dependenciesContainer").remove() }
+        },
+        "#externalLinksList": {
+            "type": "custom",
+            "source": "package>links>link",
+            "paragraphElement": "<li>",
+            "render": function(element, source) {
+                if ($(source).size() == 0) {
+                    $('#externalLinksContainer').remove()
+                }
+                $.each(source, function(index, data) {
+                    var a = $("<a class='links'>");
+                    a.attr("href", $(data).find('url').text());
+                    if ($(data).find('iconclass')) {
+                        var i = $("<span>");
+                        i.attr("class", $(data).find('iconclass').text());
+                        // console.log(i);
+                        $(a).append(i);
+                    }
+                    $(a).append($(data).find('name').text());
+                    $(element).append(a);
+                    a.wrap("<li></li>");
+                }); //each
+            }
+        }
+    }
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            dataType: "xml",
+            url: (bundleid + "/info.xml"),
+            success: function(xml) {
+                document.title = $(xml).find("package>name").text();
+                data_loader_engine(contentBlocks, xml)
+
+            },
+            cache: false,
+            error: function() {
+                $("#packageError").show();
+                $("#packageInformation").hide();
+            }
+        }); //ajax
+
+    }); // ready
+    </script>
+</head>
+
+<body>
+    <!-- 页顶标题 -->
+    <header>
+        <h1 id="packageName"></h1>
+        <a href="../index.html"><i id="homelink" class="fa fa-home"></i></a>
+    </header>
+    <!-- 整页内容区 -->
+    <main id="content">
+        <div id="packageInformation">
+            <section id="packageHeader" class="block" style="display:none">
+                <h1 id="packageName"></h1>
+                <p id="packageShortDesc">Welcome to my repo.</p>
+            </section>
+            <!-- 版本适配检查 -->
+            <section id="checkios" class="block">
+                <div id="compatibilityCheck" class="alert"></div>
+            </section>
+            <!-- 简介 -->
+            <section id="descriptionContainer" class="block">
+                <h2 role="header">简介</h2>
+                <ul id="description">
+                    <li id="descriptionList"></li>
+                    <li id="screenshotsLink"></li>
+                </ul>
+            </section>
+            <!-- 当前版本日志 -->
+            <section id="changelogContainer" class="block">
+                <h2 role="header">当前版本 <span id="versionBadge" class="badge"></span></h2>
+                <ul id="change">
+                    <li id="changesList"></li>
+                    <li id="changelogLink"></li>
+                </ul>
+            </section>
+            <!-- 依赖 -->
+            <section id="dependenciesContainer" class="block">
+                <h2 role="header">依赖包</h2>
+                <ul id="depend">
+                    <li id="dependencyList"></li>
+                </ul>
+            </section>
+            <!-- 链接 -->
+            <section id="externalLinksContainer" class="block">
+                <h2 role="header">链接</h2>
+                <ul id="externalLinksList"></ul>
+            </section>
+        </div>
+        <!-- 错误提示 -->
+        <section id="packageError" class="block" style="display:none">
+            <span><strong>FUCK！</strong> 你要查看的软件包不存在</span>
+        </section>
+        <script type="text/javascript">
+        function setAnchorTargets() {
+            // if on Cydia, set link targets to _blank
+            if (navigator.userAgent.search(/Cydia/) != -1) {
+                $("a").each(function() {
+                    $(this).attr("target", "_blank");
+                });
+            }
+        }
+
+        var repoContents = {
+            "#repoFooterLinks": {
+                "type": "custom",
+                "source": "repo>footerlinks>link",
+                "render": function(element, source) {
+                    $.each(source, function(index, data) {
+                        var a = $("<a>");
+                        a.attr("href", $(data).find('url').text());
+                        if ($(data).find('iconclass')) {
+                            var i = $("<i>")
+                            i.attr("class", $(data).find('iconclass').text());
+                            console.log(i);
+                            $(a).append(i);
+                        }
+                        $(a).append($(data).find('name').text());
+                        $(element).append(a);
+                    }); //each
+                } //render
+            }
+        }
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                dataType: "xml",
+                url: ("../repo.xml"),
+                cache: false,
+                success: function(xml) {
+                    data_loader_engine(repoContents, xml);
+                    setAnchorTargets();
+                },
+                error: function() {
+                    $("#contact").hide();
+                    setAnchorTargets();
+                }
+            }); //ajax
+
+
+        }); // ready
+        </script>
+        <!-- 版权联系 -->
+        <section id="contact" class="block">
+            <p role="footer">&copy 2019 见风致</p>
+            <p id="repoFooterLinks"></p>
+        </section>
+    </main>
+</body>
+
+</html>

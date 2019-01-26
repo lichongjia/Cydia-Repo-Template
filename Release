@@ -1,0 +1,13 @@
+Origin: JFZ's Repo
+Label: JFZ's Repo
+Suite: stable
+Version: 1.0
+Codename: jianfengzhi
+Architectures: iphoneos-arm
+Components: main
+Description: Hi,my name is JianFengZhi.This is my personal repo!
+MD5Sum:
+ 4e331dc1ea3d8075cf1af94a3f0bac5b 32606 Packages
+ d749fdc59b33fb453bad7040e7670370 8329 Packages.gz
+ 03b811133485c1c038c8984647406cf4 7848 Packages.bz2
+ 

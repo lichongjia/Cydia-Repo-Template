@@ -1,0 +1,52 @@
+<package>
+	<id>com.supermamon.fullpackage</id>
+	<name>Full Package</name>
+	<version>2.0.0-1</version>
+	<compatibility>
+		<firmware>
+			<miniOS>7.0</miniOS>
+		</firmware>
+	</compatibility>
+	<dependencies>
+		<package>mobilesubstrate</package>
+		<package>preferenceloader</package>
+		<package>flipswitch</package>
+	</dependencies>
+	<shortDescription>This is a sample new package. Firmware should be greater than 7.0</shortDescription>
+	<descriptionlist>
+		<description>This is an package will full depictions.</description>
+		<description>It has more description lines.</description>
+		<description><![CDATA[
+		You can also have<br/> 
+		a multi-line item like this -><a href="https://www.baidu.com/">百度</a>
+		]]>
+		</description>
+	</descriptionlist>
+	<screenshots>
+		<screenshot>
+			<description>This is the first description screenshot.</description>
+			<image>shot1.jpg</image>
+		</screenshot>		
+		<screenshot>
+			<description>This is the second description screenshot.</description>
+			<image>cydia.jpg</image>
+		</screenshot>		
+	</screenshots>
+	<changelog>
+		<change>Second release</change>
+		<change>It has feature 1</change>
+		<change>It has feature 2</change>
+	</changelog>
+	<links>
+		<link>
+			<name>/r/jailbreak</name>
+			<url>https://www.reddit.com/r/jailbreak</url>
+			<iconclass>fa fa-reddit</iconclass>
+		</link>
+		<link>
+			<name>Develpoer</name>
+			<url>https://www.baidu.com</url>
+			<iconclass>fa fa-code</iconclass>
+		</link>
+	</links>
+</package>

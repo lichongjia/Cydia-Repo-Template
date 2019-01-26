@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>Screenshots</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=0">
+    <!-- 设置网页图标 -->
+    <link rel="shortcut icon" href="../img/favicon.png">
+    <link rel="apple-touch-icon" href="../img/favicon.png">
+    <!-- 导入CSS样式 -->
+    <link rel="stylesheet" href="../font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../css/ios7.css">
+    <link rel="stylesheet" href="../css/my.css">
+    <!-- 导入js脚本 -->
+    <script type="text/javascript" src="../js/ios7.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery.querystring.js"></script>
+    <script type="text/javascript" src="../js/data-loader-engine.js"></script>
+    <script type="text/javascript" src="../js/ios_version_check.js"></script>
+    <script type="text/javascript">
+    bundleid = $.QueryString['p'];
+
+    var contentBlocks = {
+        "#packageName": { "type": "text", "source": "package>name" },
+        "#packageHeader": {
+            "type": "custom",
+            "source": "package>name",
+            "render": function(element, source) {
+                if (navigator.userAgent.search(/Cydia/) == -1) {
+                    $(element).show();
+                }
+            }
+        },
+        "#screenshotsList": {
+            "type": "custom",
+            "source": "package>screenshots>screenshot",
+            "render": function(element, source) {
+                console.log($(source).size());
+                if ($(source).size() == 0) {
+                    $(element).append($("<div class='noexist'>这个软件包没有截图</div>"));
+                    return;
+                }
+                $.each(source, function(index, data) {
+                    var th = $("<div class='thumbnail'>");
+                    th.append($("<p>")
+                        .text($(data).find('description').text())
+                    )
+                    th.append($("<img class='shot'>")
+                        .attr("src", bundleid + '/screenshots/' + $(data).find('image').text())
+                    )
+                    $(element).append(th);
+                    th.wrap("<li></li>");
+                });
+
+            }
+        }
+    }
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            dataType: "xml",
+            url: (bundleid + "/info.xml"),
+            success: function(xml) {
+                document.title = $(xml).find("package>name").text();
+                data_loader_engine(contentBlocks, xml)
+            },
+            cache: false,
+            error: function() {
+                $("#packageError").show();
+                $("#packageInformation").hide();
+            }
+        }); //ajax
+
+    }); // ready
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1 id="packageName"></h1>
+        <a href="../index.html"><i id="homelink" class="fa fa-home"></i></a>
+    </header>
+    <main id="content">
+        <section id="packageInformation" class="block">
+            <h2 role="header">屏幕截图</h2>
+            <ul id="screenshotsList"></ul>
+        </section>
+        <section id="packageError" style="display:none">
+            <span><strong>FUCK！</strong> 你要查看的截图不存在</span>
+        </section>
+        <script type="text/javascript">
+        function setAnchorTargets() {
+            // if on Cydia, set link targets to _blank
+            if (navigator.userAgent.search(/Cydia/) != -1) {
+                $("a").each(function() {
+                    $(this).attr("target", "_blank");
+                });
+            }
+        }
+
+        var repoContents = {
+            "#repoFooterLinks": {
+                "type": "custom",
+                "source": "repo>footerlinks>link",
+                "render": function(element, source) {
+                    $.each(source, function(index, data) {
+                        var a = $("<a>");
+                        a.attr("href", $(data).find('url').text());
+                        if ($(data).find('iconclass')) {
+                            var i = $("<i>")
+                            i.attr("class", $(data).find('iconclass').text());
+                            console.log(i);
+                            $(a).append(i);
+                        }
+                        $(a).append($(data).find('name').text());
+                        $(element).append(a);
+                    }); //each
+                } //render
+            }
+        }
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                dataType: "xml",
+                url: ("../repo.xml"),
+                cache: false,
+                success: function(xml) {
+                    data_loader_engine(repoContents, xml);
+                    setAnchorTargets();
+                },
+                error: function() {
+                    $("#contact").hide();
+                    setAnchorTargets();
+                }
+            }); //ajax
+
+
+        }); // ready
+        </script>
+        <!-- 版权联系 -->
+        <section id="contact" class="block">
+            <p role="footer">&copy 2019 见风致</p>
+            <p id="repoFooterLinks"></p>
+        </section>
+    </main>
+</body>
+
+</html>

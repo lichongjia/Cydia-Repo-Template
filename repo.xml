@@ -1,0 +1,19 @@
+<repo>
+	<footerlinks>
+		<link>
+			<name>新浪微博</name>
+			<url>https://weibo.com/lichongjia/</url>
+			<iconclass>fa fa-weibo</iconclass>
+		</link>
+		<link>
+			<name>GitHub</name>
+			<url>https://github.com/lichongjia/</url>
+			<iconclass>fa fa-github</iconclass>
+		</link>
+		<link>
+			<name>@lichongjia</name>
+			<url>https://twitter.com/lichongjia/</url>
+			<iconclass>fa fa-twitter</iconclass>
+		</link>
+	</footerlinks>
+</repo>

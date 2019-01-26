@@ -1,0 +1,54 @@
+<package>
+	<id>com.jianfengzhi.test</id>
+	<name>Test</name>
+	<version>2.0</version>
+	<compatibility>
+		<firmware>
+			<miniOS>7.0</miniOS>
+		</firmware>
+	</compatibility>
+	<dependencies>
+		<package>依赖1</package>
+		<package>依赖2</package>
+		<package>依赖3</package>
+	</dependencies>
+	<shortDescription>这是一段标题下的简短描述.</shortDescription>
+	<descriptionlist>
+		<description>插件详细功能介绍</description>
+		<description>它有功能1</description>
+		<description>它有功能2</description>
+		<description>它有功能3</description>
+		<description><![CDATA[
+		你可以这样来添加大段文字,它可以识别HTML代码.<br/> 
+		还支持像这样的超链接 -><a href="https://lichongjia.github.io/">访问我的GitHub</a>
+		]]>
+		</description>
+	</descriptionlist>
+	<screenshots>
+		<screenshot>
+			<description>这是第1张截图的描述。</description>
+			<image>shot1.jpg</image>
+		</screenshot>		
+		<screenshot>
+			<description>这是第2张截图的描述。</description>
+			<image>cydia.jpg</image>
+		</screenshot>		
+	</screenshots>
+	<changelog>
+		<change>第二个版本发布</change>
+		<change>添加功能</change>
+		<change>修复错误2</change>
+	</changelog>
+	<links>
+		<link>
+			<name>/r/jailbreak</name>
+			<url>https://www.reddit.com/r/jailbreak</url>
+			<iconclass>fa fa-reddit</iconclass>
+		</link>
+		<link>
+			<name>开发者主页</name>
+			<url>https://lichongjia.github.io/</url>
+			<iconclass>fa fa-github</iconclass>
+		</link>
+	</links>
+</package>

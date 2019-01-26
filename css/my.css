@@ -1,0 +1,112 @@
+#welcome,
+#packageName,
+#packageShortDesc,
+#checkios,
+#compatibilityCheck,
+#copyright {
+    text-align: center;
+}
+
+#logo {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 10%;
+}
+
+.alert span {
+    vertical-align: middle;
+}
+
+.alert i {
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+
+#support {
+    color: #13CE66;
+}
+
+#least {
+    color: #F76260;
+}
+
+#untest {
+    color: #FFBE00;
+}
+
+#only {
+    color: #10AEFF;
+}
+
+#packageError {
+    text-align: center;
+}
+
+#packageError span {
+    padding: 0.2em 0.5em;
+    background: #F76260;
+    color: #fff;
+    border-radius: 2px;
+}
+
+.badge {
+    padding: 0 0.2em;
+    color: #fff;
+    text-align: center;
+    background-color: #777;
+    border-radius: 2px;
+}
+
+#shotlist p {
+    text-align: center;
+}
+
+.shot {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 414px;
+}
+
+#welcome {
+    color: #ff9c41;
+}
+
+#homelink {
+    display: block;
+    position: fixed;
+    top: 0px;
+    left: 12px;
+    text-align: left;
+    font-size: 18px;
+    line-height: 44px;
+    color: #ff9c41;
+}
+
+#dependencyList span {
+    display: inline-block;
+    margin-right: 1em;
+}
+
+#contact p,
+[role=footer] {
+    display: block;
+    margin: 0.5em 0;
+    padding: 0;
+}
+
+#contact p {
+    text-align: center;
+    font-size: 14px;
+}
+
+#contact p a {
+    margin-right: 0.5em;
+    color: #ff9c41;
+    /*color: #6d6d72;*/
+}
+
+#contact i {
+    color: #fe8c24;
+}
